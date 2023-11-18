@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 )
@@ -33,6 +34,15 @@ func deal(d deck, handSize int) (deck, deck) {
 
 func (d deck) saveToFile(filename string) error {
 	return os.WriteFile(filename, []byte(d.toString()), 0666)
+}
+
+func newDeckFromFile(filename string) deck {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		log.Fatal("Error", err)
+	}
+
+	return strings.Split(string(data), ",")
 }
 
 func (d deck) print() {
