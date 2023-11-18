@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"os"
+	"testing"
+)
 
 func TestNewDeck(t *testing.T) {
 	d := newDeck()
@@ -16,4 +20,17 @@ func TestNewDeck(t *testing.T) {
 	if d[len(d)-1] != "Four of Clubs" {
 		t.Errorf("Expected first card of Ace of Spades, but got %s", d[len(d)-1])
 	}
+}
+
+func TestSaveToDeckAndNewDeckFromFile(t *testing.T) {
+	filename := "_deck_testing"
+	os.Remove(filename)
+	d := newDeck()
+	d.saveToFile(filename)
+
+	loadedDeck := newDeckFromFile(filename)
+
+	assert.Equal(t, len(loadedDeck), 16, "The length of the deck should be 16")
+
+	os.Remove(filename)
 }
